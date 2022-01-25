@@ -4,6 +4,13 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 const config  = {
+    devServer: {
+        static: {
+          directory: path.join(process.cwd(), './build'),
+        },
+        compress: true,
+        port: 9000,
+    },
     entry: './src/index.js',
     mode: 'production',
     devtool: 'source-map',

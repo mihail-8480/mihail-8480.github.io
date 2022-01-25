@@ -11,7 +11,7 @@ const config  = {
         compress: true,
         port: 9000,
     },
-    entry: './src/index.js',
+    entry: './src/index.ts',
     mode: 'production',
     devtool: 'source-map',
     output: {
@@ -21,7 +21,6 @@ const config  = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: "Mihail Mojsoski",
             template: "src/content/index.html"
         }),
         new MiniCssExtractPlugin({
@@ -30,6 +29,11 @@ const config  = {
     ],
     module: {
         rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
             {
                 test: /\.html$/i,
                 loader: "html-loader",
@@ -57,6 +61,9 @@ const config  = {
                 type: 'asset/resource'
             },
         ],
+    },
+    resolve: {
+        extensions: ['.ts', '.js'],
     },
     optimization: {
         chunkIds: 'named',

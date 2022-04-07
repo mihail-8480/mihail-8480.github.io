@@ -24,6 +24,10 @@
     "serve": "npx webpack serve"
   },
   "dependencies": {
-    "process": "^0.11.10"
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "process": "^0.11.10",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   }
 }

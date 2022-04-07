@@ -13,7 +13,8 @@ const config  = {
         compress: true,
         port: 9000,
     },
-    entry: './src/index.ts',
+
+    entry: './src/index.tsx',
     mode: 'production',
     devtool: 'source-map',
     output: {
@@ -70,7 +71,7 @@ const config  = {
         ],
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.js', '.jsx', '.tsx', '.json', '.css'],
     },
     optimization: {
         chunkIds: 'named',

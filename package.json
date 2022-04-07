@@ -22,7 +22,7 @@
   "type": "module",
   "scripts": {
     "build": "webpack",
-    "serve": "webpack && http-server build"
+    "serve": "webpack && http-server -c-1 build"
   },
   "dependencies": {
     "@types/react": "^18.0.0",

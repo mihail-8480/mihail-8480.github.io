@@ -1,8 +1,10 @@
 import path from 'path';
 import process from 'process';
+import CopyPlugin from 'copy-webpack-plugin'
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import TerserPlugin from "terser-webpack-plugin";
 const config  = {
     devServer: {
         static: {
@@ -20,6 +22,11 @@ const config  = {
         clean: true
     },
     plugins: [
+        new CopyPlugin({
+           patterns: [
+               { from: './static', to: './' }
+           ]
+        }),
         new HtmlWebpackPlugin({
             template: "src/content/index.html"
         }),
@@ -72,6 +79,7 @@ const config  = {
         providedExports: true,
         minimizer: [
             new CssMinimizerPlugin(),
+            new TerserPlugin()
           ],   
         splitChunks: {
           cacheGroups: {

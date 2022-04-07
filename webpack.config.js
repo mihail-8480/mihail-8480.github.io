@@ -1,8 +1,10 @@
 import path from 'path';
 import process from 'process';
+import CopyPlugin from 'copy-webpack-plugin'
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import TerserPlugin from "terser-webpack-plugin";
 const config  = {
     devServer: {
         static: {
@@ -11,7 +13,8 @@ const config  = {
         compress: true,
         port: 9000,
     },
-    entry: './src/index.js',
+
+    entry: './src/index.tsx',
     mode: 'production',
     devtool: 'source-map',
     output: {
@@ -20,8 +23,12 @@ const config  = {
         clean: true
     },
     plugins: [
+        new CopyPlugin({
+           patterns: [
+               { from: './static', to: './' }
+           ]
+        }),
         new HtmlWebpackPlugin({
-            title: "Mihail Mojsoski",
             template: "src/content/index.html"
         }),
         new MiniCssExtractPlugin({
@@ -30,6 +37,11 @@ const config  = {
     ],
     module: {
         rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
             {
                 test: /\.html$/i,
                 loader: "html-loader",
@@ -58,6 +70,9 @@ const config  = {
             },
         ],
     },
+    resolve: {
+        extensions: ['.ts', '.js', '.jsx', '.tsx', '.json', '.css'],
+    },
     optimization: {
         chunkIds: 'named',
         mangleExports: true,
@@ -65,6 +80,7 @@ const config  = {
         providedExports: true,
         minimizer: [
             new CssMinimizerPlugin(),
+            new TerserPlugin()
           ],   
         splitChunks: {
           cacheGroups: {

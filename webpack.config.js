@@ -25,11 +25,16 @@ const config  = {
     plugins: [
         new CopyPlugin({
            patterns: [
-               { from: './static', to: './' }
+               { from: './static', to: './' },
            ]
         }),
         new HtmlWebpackPlugin({
-            template: "src/content/index.html"
+            template: "src/content/index.html",
+            filename: "index.html"
+        }),
+        new HtmlWebpackPlugin({
+            template: "src/content/index.html",
+            filename: "404.html"
         }),
         new MiniCssExtractPlugin({
             filename: "[name].css",

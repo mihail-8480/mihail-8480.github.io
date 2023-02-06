@@ -8,7 +8,6 @@
       "checkJs": true,
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
-      "jsx": "react",
-      "allowUmdGlobalAccess": true
+      "jsx": "react-jsx"
     }
   }

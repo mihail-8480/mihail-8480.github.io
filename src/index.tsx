@@ -1,11 +1,12 @@
-import React, { Suspense } from "react";
+import {StrictMode, lazy} from "react";
+import { Suspense } from "react";
 import('react-dom/client').then(ReactDOMClient => {
-    const App = React.lazy(() => import("./app"))
+    const App = lazy(() => import("./app"))
     const root = ReactDOMClient.createRoot(document.getElementById('root'))
 
-    root.render(<React.StrictMode>
+    root.render(<StrictMode>
         <Suspense>
             <App />
         </Suspense>
-    </React.StrictMode>);
+    </StrictMode>);
 })

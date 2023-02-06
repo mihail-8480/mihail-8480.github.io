@@ -1,11 +1,11 @@
-import "normalize.css";
-import "./css/styles.css";
-import './fonts/FantasqueSansMono-Bold-decl.css'
-import './fonts/FantasqueSansMono-Italic-decl.css'
-import './fonts/FantasqueSansMono-Regular-decl.css'
-import './fonts/FantasqueSansMono-BoldItalic-decl.css'
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./app";
+import React, { Suspense } from "react";
+import('react-dom/client').then(ReactDOMClient => {
+    const App = React.lazy(() => import("./app"))
+    const root = ReactDOMClient.createRoot(document.getElementById('root'))
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+    root.render(<React.StrictMode>
+        <Suspense>
+            <App />
+        </Suspense>
+    </React.StrictMode>);
+})

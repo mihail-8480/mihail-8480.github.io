@@ -67,7 +67,7 @@ const config = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            plugins: [!isProd && 'react-refresh/babel'],
+                            plugins: !isProd ? ['react-refresh/babel'] : [],
                         },
                     },
                 ],

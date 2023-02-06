@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[179],{629:(e,t,n)=>{var s=n(197),r=n(362);Promise.all([n.e(105),n.e(655)]).then(n.t.bind(n,488,19)).then((e=>{const t=(0,r.lazy)((()=>Promise.all([n.e(494),n.e(66)]).then(n.bind(n,66))));e.createRoot(document.getElementById("root")).render((0,s.jsx)(r.StrictMode,{children:(0,s.jsx)(r.Suspense,{children:(0,s.jsx)(t,{})})}))}))}},e=>{e.O(0,[25],(()=>(629,e(e.s=629)))),e.O()}]);
+//# sourceMappingURL=main.6700d75f19a9e1816a3b.js.map

@@ -1,32 +1,42 @@
 import path from 'path';
 import process from 'process';
 import CopyPlugin from 'copy-webpack-plugin'
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import TerserPlugin from "terser-webpack-plugin";
-const config  = {
-    devServer: {
-        static: {
-          directory: path.join(process.cwd(), './build'),
-        },
-        compress: true,
-        port: 9000,
-    },
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
+import webpack from 'webpack';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const isProd = process.env.PRODUCTION === "1"
+
+/**
+ * @type {webpack.Configuration}
+ */
+const config = {
     entry: './src/index.tsx',
-    mode: 'production',
-    devtool: 'source-map',
+    mode: isProd ? 'production' : 'development',
+    devtool: isProd ? 'source-map' : 'eval-cheap-module-source-map',
     output: {
         path: path.resolve(process.cwd(), './build'),
-        filename: '[name].bundle.js',
+        filename: "[name].[chunkhash].js",
         clean: true
     },
     plugins: [
+        ...(isProd ? [new MiniCssExtractPlugin({
+            filename: "[name].[chunkhash].css",
+        })] : [new ReactRefreshWebpackPlugin()]),
+        new webpack.ProvidePlugin({
+            React: 'react'
+        }),
         new CopyPlugin({
-           patterns: [
-               { from: './static', to: './' },
-           ]
+            patterns: [
+                { from: './static', to: './' },
+            ]
         }),
         new HtmlWebpackPlugin({
             template: "src/content/index.html",
@@ -35,38 +45,37 @@ const config  = {
         new HtmlWebpackPlugin({
             template: "src/content/index.html",
             filename: "404.html"
-        }),
-        new MiniCssExtractPlugin({
-            filename: "[name].css",
         })
     ],
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
+                test: /\.(ts|tsx)$/i,
                 use: 'ts-loader',
-                exclude: /node_modules/,
+                include: path.join(__dirname, 'src')
             },
             {
                 test: /\.html$/i,
                 loader: "html-loader",
                 options: {
-                    minimize: true
+                    minimize: isProd
                 }
             },
             {
                 test: /\.(js|jsx)$/i,
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env', 'babel-preset-minify'],
-                    plugins: ['@babel/plugin-proposal-object-rest-spread']
-                }
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            plugins: [!isProd && 'react-refresh/babel'],
+                        },
+                    },
+                ],
             },
             {
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
+                    isProd ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'postcss-loader'
                 ]
             },
             {
@@ -78,26 +87,35 @@ const config  = {
     resolve: {
         extensions: ['.ts', '.js', '.jsx', '.tsx', '.json', '.css'],
     },
-    optimization: {
-        chunkIds: 'named',
-        mangleExports: true,
-        minimize: true,
-        providedExports: true,
-        minimizer: [
-            new CssMinimizerPlugin(),
-            new TerserPlugin()
-          ],   
+    optimization: isProd ? {
+        runtimeChunk: 'single',
         splitChunks: {
-          cacheGroups: {
-            styles: {
-              name: "styles",
-              type: "css/mini-extract",
-              chunks: "all",
-              enforce: true,
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            minSize: 0,
+            cacheGroups: {
+                vendor: {
+                    reuseExistingChunk: true,
+                    test: /[\\/]node_modules[\\/]/,
+                    /**
+                     * @param {{context: string, type: string}} module 
+                     */
+                    name(module) {
+                        if (module.type.includes('css/')) {
+                            return 'css'
+                        }
+                        const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                        return `npm.${packageName.replace('@', '')}`;
+                    },
+                },
             },
-          },
         },
-      }
+        minimizer: [
+            `...`,
+            new TerserPlugin(),
+            new CssMinimizerPlugin()
+        ]
+    } : {}
 };
 
 export default config;

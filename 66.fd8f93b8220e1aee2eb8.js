@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[66],{66:(e,l,s)=>{s.r(l),s.d(l,{default:()=>t});var r=s(197);function t(){return(0,r.jsx)("div",{className:"text-3xl",children:"Hello, World!"})}}}]);
-//# sourceMappingURL=66.fd8f93b8220e1aee2eb8.js.map

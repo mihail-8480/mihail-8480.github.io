@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[66],{66:(e,t,s)=>{s.r(t),s.d(t,{default:()=>a});var n=s(197);function a(){return(0,n.jsx)("div",{className:"text-red-500 text-3xl",children:"Genshin Impact"})}}}]);
-//# sourceMappingURL=66.d3d705a31088f2b4e57e.js.map

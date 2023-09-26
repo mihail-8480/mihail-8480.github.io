@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[66],{66:(e,s,t)=>{t.r(s),t.d(s,{default:()=>a});var r=t(197);function a(){return(0,r.jsx)("div",{className:"text-red-500 text-3xl",children:"I should consider making a portfolio."})}}}]);
+//# sourceMappingURL=66.d95b824bfefbf85f5495.js.map

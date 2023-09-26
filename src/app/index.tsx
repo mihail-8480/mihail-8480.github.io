@@ -1,6 +1,6 @@
 import './styles'
 export default function App() {
     return <div className="text-red-500 text-3xl">
-        Genshin Impact
+        I should consider making a portfolio.
     </div>
 }
